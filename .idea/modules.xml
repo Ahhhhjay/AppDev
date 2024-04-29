@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AppDev.iml" filepath="$PROJECT_DIR$/AppDev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/restaurant_project/android/app/src/debug/debug.iml" filepath="$PROJECT_DIR$/restaurant_project/android/app/src/debug/debug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/restaurant_project/android/app/src/profile/profile.iml" filepath="$PROJECT_DIR$/restaurant_project/android/app/src/profile/profile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/restaurant_project/restaurant_project.iml" filepath="$PROJECT_DIR$/restaurant_project/restaurant_project.iml" />
+    </modules>
+  </component>
+</project>
