@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/AccountPage.dart';
-import 'package:restaurant_project/ForgotPasswordPage.dart';
-import 'package:restaurant_project/Profile.dart';
+import 'package:restaurant_project/account-page.dart';
+import 'package:restaurant_project/forgot-password-page.dart';
+import 'package:restaurant_project/profile.dart';
 import 'package:restaurant_project/register.dart';
 
 class SignInPage extends StatelessWidget {

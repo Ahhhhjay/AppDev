@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:restaurant_project/SignIn.dart';
+import 'package:restaurant_project/sign-in.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
