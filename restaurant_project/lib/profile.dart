@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/about-us.dart';
-import 'package:restaurant_project/edit-profile.dart';
+import 'package:restaurant_project/about_us.dart';
+import 'package:restaurant_project/edit_profile.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

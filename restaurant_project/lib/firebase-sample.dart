@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       addUser();
                     },
-                    child: Text(' Add Userser')),
+                    child: Text('Add Userser')),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return Text(' Something Went wrong');
+                        return Text('Something Went wrong');
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Text('Loading');

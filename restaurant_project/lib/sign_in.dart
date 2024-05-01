@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/account-page.dart';
-import 'package:restaurant_project/forgot-password-page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_project/forgot_password.dart';
 import 'package:restaurant_project/profile.dart';
 import 'package:restaurant_project/register.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,15 +40,17 @@ class SignInPage extends StatelessWidget {
             ),
             SizedBox(height: 32),
             TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: 'Email',
-                hintText: 'tsmith@email.com',
+                hintText: 'example@email.com',
                 border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
             TextFormField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -48,11 +60,27 @@ class SignInPage extends StatelessWidget {
             ),
             SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
-                );
+              onPressed: () async {
+                try {
+                  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+                  if (userCredential.user != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                    );
+                  }
+                } catch (e) {
+                  // Handle errors or unsuccessful login
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to sign in: ${e.toString()}'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12),
@@ -77,7 +105,7 @@ class SignInPage extends StatelessWidget {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            Spacer(), // Pushes the bottom button to the end of the screen
+            Spacer(),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -86,7 +114,7 @@ class SignInPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                side: BorderSide(color: Colors.green), // Border color
+                side: BorderSide(color: Colors.green),
                 padding: EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -97,7 +125,7 @@ class SignInPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18),
               ),
             ),
-            SizedBox(height: 16), // Add space at the bottom
+            SizedBox(height: 16),
           ],
         ),
       ),

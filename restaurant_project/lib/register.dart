@@ -1,8 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:restaurant_project/sign-in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_project/sign_in.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> registerUser() async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      if (userCredential.user != null) {
+        print("User registered");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignInPage()),
+        );
+      }
+    } catch (e) {
+      print("Failed to register user: ${e.toString()}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to register: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,10 +46,10 @@ class RegisterPage extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.white,
-        elevation: 0, // Removes the shadow under the app bar.
+        elevation: 0,
       ),
       body: Container(
-        padding: EdgeInsets.all(16), // Padding around the whole container.
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -29,6 +63,7 @@ class RegisterPage extends StatelessWidget {
             SizedBox(height: 16),
             Text('Email', style: TextStyle(fontSize: 16)),
             TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'Enter your email',
@@ -37,7 +72,8 @@ class RegisterPage extends StatelessWidget {
             SizedBox(height: 16),
             Text('Password', style: TextStyle(fontSize: 16)),
             TextFormField(
-              obscureText: true, // Hides password text
+              controller: _passwordController,
+              obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Enter your password',
                 suffixIcon: Icon(Icons.visibility_off),
@@ -45,14 +81,10 @@ class RegisterPage extends StatelessWidget {
             ),
             SizedBox(height: 32),
             SizedBox(
-              width: double.infinity, // Makes the button stretch to fit the width.
+              width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // Handle register button press
-                },
-                style: ElevatedButton.styleFrom(
-
-                ),
+                onPressed: registerUser,
+                style: ElevatedButton.styleFrom(),
                 child: Text(
                   'Create Account',
                   style: TextStyle(fontSize: 20),

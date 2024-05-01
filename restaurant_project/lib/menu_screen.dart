@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_project/dish.dart'; // Make sure this is correctly imported
-import 'package:restaurant_project/menu_details_page.dart'; // Make sure this is correctly imported
-import 'package:restaurant_project/book_and_order_page.dart'; // Assuming you have a page for booking a table
+import 'package:restaurant_project/menu_details.dart'; // Make sure this is correctly imported
+import 'package:restaurant_project/book_and_order.dart'; // Assuming you have a page for booking a table
 
 class MenuScreen extends StatelessWidget {
   final List<Dish> dishes = [

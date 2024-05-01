@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/sign-in.dart';
-import 'package:restaurant_project/welcome-page.dart';
-import 'package:restaurant_project/register.dart';
+import 'package:restaurant_project/sign_in.dart';
+import 'package:restaurant_project/welcome_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    print(e); // To see the error if initialization fails
+  }
   runApp(MyApp());
 }
 
