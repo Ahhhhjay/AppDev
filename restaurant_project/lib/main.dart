@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_project/sign_in.dart';
 import 'package:restaurant_project/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

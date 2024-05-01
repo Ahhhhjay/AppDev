@@ -9,21 +9,21 @@ class MenuScreen extends StatelessWidget {
         name: 'Thai Rice Noodles',
         description: 'Stir-fried noodles with a blend of Thai spices, eggs, and vegetables.',
         price: 10.99,
-        imageUrl: 'assets/noodles.jpg',
+        imageUrl: 'assets/images/pad-see-ew.jpg',
         allergens: ['Eggs', 'Nuts']
     ),
     Dish(
         name: 'Vegetable Curry',
         description: 'A rich curry made with seasonal vegetables and coconut milk.',
         price: 8.99,
-        imageUrl: 'assets/curry.jpg',
+        imageUrl: 'assets/images/vegetable-curry.jpg',
         allergens: ['None']
     ),
     Dish(
         name: 'Chicken Teriyaki',
         description: 'Grilled chicken glazed in a homemade teriyaki sauce.',
         price: 12.99,
-        imageUrl: 'assets/chicken.jpg',
+        imageUrl: 'assets/images/chicken-teriyaki.jpg',
         allergens: ['Soy', 'Wheat']
     ),
   ];

@@ -64,7 +64,6 @@ class ProfilePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-
             icon:Icon(Icons.restaurant_menu),
             label: 'Meals',
           ),
