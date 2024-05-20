@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_project/about_us.dart';
 import 'package:restaurant_project/edit_profile.dart';
+import 'package:restaurant_project/cart_screen.dart';
+
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,6 +12,17 @@ class ProfilePage extends StatelessWidget {
         elevation: 0,
         title: Text('[Profile]', style: TextStyle(color: Colors.black)),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -60,18 +73,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon:Icon(Icons.restaurant_menu),
-            label: 'Meals',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
       ),
     );
   }

@@ -20,6 +20,14 @@ class Recipe {
       ingredients: ingredientsList,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'thumbnail_url': thumbnailUrl,
+      'ingredients': ingredients,
+    };
+  }
 }
 
 class RecipeResponse {

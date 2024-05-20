@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_project/recipe.dart';
+import 'package:restaurant_project/cart_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import 'cart_screen.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
   final Recipe recipe;
@@ -12,6 +16,17 @@ class RecipeDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.name),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -41,8 +56,10 @@ class RecipeDetailScreen extends StatelessWidget {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Implement the Add to Cart functionality
-                Navigator.pop(context);
+                Provider.of<CartProvider>(context, listen: false).addToCart(recipe);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Added to Cart')),
+                );
               },
               child: Text('Add to Cart'),
             ),
