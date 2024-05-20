@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_project/sign_in.dart';
+import 'package:restaurant_project/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,155 +14,58 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
+    // The context here includes a Navigator because it's within the MaterialApp widget.
     return MaterialApp(
+      title: 'AsianFood',
       home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final Stream<QuerySnapshot> _userStream =
-  FirebaseFirestore.instance.collection('Users').snapshots();
-
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  String name = ' ';
-
-  Future<void> addUser() {
-    return users
-        .add({
-      'name': name,
-    })
-        .then((value) => print("User added"))
-        .catchError((error) => print("Failed to add the user"));
-  }
-
-
-  Future<void> updateUser(String id, String newName) async{
-    await users.doc(id).update({'name':newName}).then((value) => print("User added"))
-        .catchError((error) => print("Failed to add the user"));
-  }
-
-  Future<void> deleteUser(String id) async {
-    await users.doc(id).delete().then((value) => print("User added"))
-        .catchError((error) => print("Failed to add the user"));
-  }
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // The context here is valid for Navigator operations.
     return Scaffold(
-      appBar: AppBar(
-        title: Text('FireStore Demo'),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-            margin: EdgeInsets.zero,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Enter user Name',
-                  style: TextStyle(fontSize: 16),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.fastfood), // This is your logo placeholder.
+              SizedBox(height: 50),
+              Text(
+                'AsianFood',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  onChanged: (value) {
-                    name = value;
-                  },
-                  decoration: InputDecoration(
-                      hintText: 'Enter your password',
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(6.0)))),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      addUser();
-                    },
-                    child: Text(' Add Userser')),
-                SizedBox(
-                  height: 20.0,
-                ),
-                StreamBuilder<QuerySnapshot>(
-                    stream: _userStream,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(' Something Went wrong');
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text('Loading');
-                      }
-                      return ListView(
-                        shrinkWrap: true,
-                        children: snapshot.data!.docs
-                            .map((DocumentSnapshot document) {
-                          Map<String, dynamic> data =
-                          document.data()! as Map<String, dynamic>;
-                          String docId = document.id;
-                          return ListTile(
-                            title: Text(data['name']),trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        String newName = '';
-                                        return AlertDialog(
-                                          title: Text('Edit User'),
-                                          content: TextField(
-                                            onChanged: (value) {
-                                              newName = value;
-                                            },
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  updateUser(docId, newName);
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Update'))
-                                          ],
-                                        );
-                                      });
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  deleteUser(docId);
-                                },
-                              ),
-                            ],
-                          ),
-
-                          );
-                        }).toList(),
-                      );
-                    }),
-              ],
-            )),
+              ),
+              SizedBox(height: 120),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BookAndOrderPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(),
+                child: Text('Begin'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignInPage()),
+                  );
+                },
+                child: Text('Already a member? Sign In'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

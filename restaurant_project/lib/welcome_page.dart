@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_project/menu_screen.dart';
 
 class BookAndOrderPage extends StatelessWidget {
   @override
@@ -40,8 +41,10 @@ class BookAndOrderPage extends StatelessWidget {
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                // Continue button logic
-              },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuScreen()),
+                );              },
               style: ElevatedButton.styleFrom(
 
                 padding: EdgeInsets.symmetric(vertical: 12),

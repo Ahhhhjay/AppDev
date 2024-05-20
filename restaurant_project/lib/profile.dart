@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/AboutUs.dart';
-import 'package:restaurant_project/EditProfile.dart';
+import 'package:restaurant_project/about_us.dart';
+import 'package:restaurant_project/edit_profile.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,6 @@ class ProfilePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-
             icon:Icon(Icons.restaurant_menu),
             label: 'Meals',
           ),
