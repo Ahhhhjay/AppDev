@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/sign_in.dart';
-import 'package:restaurant_project/welcome_page.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_project/recipe_provider.dart';
+import 'package:restaurant_project/menu_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:restaurant_project/sign_in.dart';
+import 'package:restaurant_project/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp();
-  } catch (e) {
-    print(e); // To see the error if initialization fails
-  }
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // The context here includes a Navigator because it's within the MaterialApp widget.
-    return MaterialApp(
-      title: 'AsianFood',
-      home: MyHomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => RecipeProvider(),
+      child: MaterialApp(
+        title: 'AsianFood',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(),
+      ),
     );
   }
 }
@@ -27,14 +31,13 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // The context here is valid for Navigator operations.
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.fastfood), // This is your logo placeholder.
+              Icon(Icons.fastfood),
               SizedBox(height: 50),
               Text(
                 'AsianFood',
@@ -48,7 +51,7 @@ class MyHomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => BookAndOrderPage()),
+                    MaterialPageRoute(builder: (context) => SplashScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(),

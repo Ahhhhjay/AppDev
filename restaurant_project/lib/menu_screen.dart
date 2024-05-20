@@ -1,76 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/dish.dart'; // Make sure this is correctly imported
-import 'package:restaurant_project/menu_details.dart'; // Make sure this is correctly imported
-import 'package:restaurant_project/book_and_order.dart'; // Assuming you have a page for booking a table
+import 'package:provider/provider.dart';
+import 'package:restaurant_project/recipe_provider.dart';
+import 'package:restaurant_project/recipe_detail_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
-class MenuScreen extends StatelessWidget {
-  final List<Dish> dishes = [
-    Dish(
-        name: 'Thai Rice Noodles',
-        description: 'Stir-fried noodles with a blend of Thai spices, eggs, and vegetables.',
-        price: 10.99,
-        imageUrl: 'assets/images/pad-see-ew.jpg',
-        allergens: ['Eggs', 'Nuts']
-    ),
-    Dish(
-        name: 'Vegetable Curry',
-        description: 'A rich curry made with seasonal vegetables and coconut milk.',
-        price: 8.99,
-        imageUrl: 'assets/images/vegetable-curry.jpg',
-        allergens: ['None']
-    ),
-    Dish(
-        name: 'Chicken Teriyaki',
-        description: 'Grilled chicken glazed in a homemade teriyaki sauce.',
-        price: 12.99,
-        imageUrl: 'assets/images/chicken-teriyaki.jpg',
-        allergens: ['Soy', 'Wheat']
-    ),
-  ];
+class MenuScreen extends StatefulWidget {
+  @override
+  _MenuScreenState createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<RecipeProvider>(context, listen: false).fetchRecipes('asian');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Menu"),
+        title: Text('Asian Dishes'),
       ),
-      body: ListView.builder(
-        itemCount: dishes.length,
-        itemBuilder: (context, index) {
-          var dish = dishes[index];
-          return Card(
-            child: ListTile(
-              leading: Image.asset(dish.imageUrl, width: 100, fit: BoxFit.cover),
-              title: Text(dish.name),
-              subtitle: Text('\$${dish.price.toStringAsFixed(2)}'),
-              trailing: IconButton(
-                icon: Icon(Icons.add_shopping_cart),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MenuDetailsPage(dish: dish),
+      body: Consumer<RecipeProvider>(
+        builder: (context, provider, child) {
+          if (provider.loading) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (provider.recipes.isEmpty) {
+            return Center(child: Text('No recipes found'));
+          }
+          return ListView.builder(
+            itemCount: provider.recipes.length,
+            itemBuilder: (context, index) {
+              final recipe = provider.recipes[index];
+              return Card(
+                margin: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: recipe.thumbnailUrl,
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      width: double.infinity,
+                      height: 200.0,
+                      fit: BoxFit.cover,
                     ),
-                  );
-                },
-              ),
-            ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        recipe.name,
+                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'Ingredients:',
+                        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        recipe.ingredients.join(', '),
+                        style: TextStyle(fontSize: 14.0),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecipeDetailScreen(recipe: recipe),
+                          ),
+                        );
+                      },
+                      child: Text('View Details'),
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BookTablePage(), // This page needs to be implemented
-            ),
-          );
-        },
-        label: Text('Book a Table'),
-        icon: Icon(Icons.calendar_today),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, // Places the button at the bottom center
     );
   }
 }
