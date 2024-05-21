@@ -57,6 +57,7 @@ class MenuDetailsPage extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('${dish.name} added to cart')),
                   );
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

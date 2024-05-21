@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
+import 'package:restaurant_project/screens/home/home_page.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -31,7 +32,8 @@ class CartScreen extends StatelessWidget {
                   children: [
                     Text(item.description),
                     Text('Price: \$${item.price.toStringAsFixed(2)}'),
-                    Text('Rating: ${item.rating} (${item.ratingCount} reviews)'),
+                    Text(
+                        'Rating: ${item.rating} (${item.ratingCount} reviews)'),
                   ],
                 ),
                 trailing: IconButton(
@@ -53,7 +55,11 @@ class CartScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Checkout successful!')),
             );
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => HomePage(initialIndex: 0)),
+            );
           },
           child: Text('Checkout'),
         ),
