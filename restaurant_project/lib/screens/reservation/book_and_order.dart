@@ -139,7 +139,7 @@ class _BookTablePageState extends State<BookTablePage> {
       return {
         'name': item.name,
         'price': item.price,
-        'quantity': item.quantity,
+        // 'quantity': item.quantity,
       };
     }).toList();
 

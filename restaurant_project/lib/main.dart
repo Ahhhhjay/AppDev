@@ -3,14 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/recipe_provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:restaurant_project/screens/home/home_page.dart';
 import 'package:restaurant_project/screens/auth/sign_in.dart';
-import 'notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await NotificationService().initNotification();
   runApp(MyApp());
 }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_project/models/category.dart';
 import 'package:restaurant_project/providers/recipe_provider.dart';
-import 'package:restaurant_project/screens/menu/recipe_detail_screen.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:restaurant_project/screens/menu/menu_details.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -13,75 +13,44 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<RecipeProvider>(context, listen: false).fetchRecipes('asian');
+    Provider.of<RecipeProvider>(context, listen: false).fetchCategories();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Asian Dishes'),
+        title: Text('Menu'),
       ),
       body: Consumer<RecipeProvider>(
         builder: (context, provider, child) {
           if (provider.loading) {
             return Center(child: CircularProgressIndicator());
+          } else if (provider.categories.isEmpty) {
+            return Center(child: Text('No data available'));
           }
-          if (provider.recipes.isEmpty) {
-            return Center(child: Text('No recipes found'));
-          }
+
+          final categories = provider.categories;
           return ListView.builder(
-            itemCount: provider.recipes.length,
+            itemCount: categories.length,
             itemBuilder: (context, index) {
-              final recipe = provider.recipes[index];
-              return Card(
-                margin: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: recipe.thumbnailUrl,
-                      placeholder: (context, url) => CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                      width: double.infinity,
-                      height: 200.0,
-                      fit: BoxFit.cover,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        recipe.name,
-                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              final category = categories[index];
+              return ExpansionTile(
+                title: Text(category.name),
+                leading: Image.asset(category.imageUrl, width: 50, height: 50),
+                children: category.foods.map((dish) => ListTile(
+                  title: Text(dish.name),
+                  subtitle: Text('\$${dish.price.toStringAsFixed(2)}'),
+                  leading: Image.asset(dish.imageUrl, width: 50, height: 50),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MenuDetailsPage(dish: dish),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        'Ingredients:',
-                        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        recipe.ingredients.join(', '),
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecipeDetailScreen(recipe: recipe),
-                          ),
-                        );
-                      },
-                      child: Text('View Details'),
-                    ),
-                  ],
-                ),
+                    );
+                  },
+                )).toList(),
               );
             },
           );

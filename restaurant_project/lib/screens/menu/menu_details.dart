@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/models/dish.dart';  // Ensure you have the correct import for the Dish model
+import 'package:provider/provider.dart';
+import 'package:restaurant_project/models/dish.dart';
+import 'package:restaurant_project/providers/cart_provider.dart';
 
 class MenuDetailsPage extends StatelessWidget {
   final Dish dish;
@@ -11,14 +13,11 @@ class MenuDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(dish.name),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Image.asset(dish.imageUrl, fit: BoxFit.cover, height: 250, width: double.infinity),
+            Image.network(dish.imageUrl, fit: BoxFit.cover, height: 250, width: double.infinity),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -54,12 +53,12 @@ class MenuDetailsPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Implement the Add to Cart functionality
-                  // For now, just pop back
-                  Navigator.pop(context);
+                  Provider.of<CartProvider>(context, listen: false).addToCart(dish);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${dish.name} added to cart')),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
-
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:restaurant_project/notification_service.dart';
-import 'package:restaurant_project/screens/home/home_page.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -23,11 +21,19 @@ class CartScreen extends StatelessWidget {
               final item = provider.cartItems[index];
               return ListTile(
                 leading: CachedNetworkImage(
-                  imageUrl: item.thumbnailUrl,
+                  imageUrl: item.imageUrl,
                   placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 title: Text(item.name),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(item.description),
+                    Text('Price: \$${item.price.toStringAsFixed(2)}'),
+                    Text('Rating: ${item.rating} (${item.ratingCount} reviews)'),
+                  ],
+                ),
                 trailing: IconButton(
                   icon: Icon(Icons.remove_circle_outline),
                   onPressed: () {
@@ -42,20 +48,12 @@ class CartScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
-          onPressed: () async {
+          onPressed: () {
             Provider.of<CartProvider>(context, listen: false).clearCart();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Checkout successful!')),
             );
-            await NotificationService().showNotification(
-              0,
-              'Checkout Successful',
-              'Your order has been placed successfully!',
-            );
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
+            Navigator.pop(context);
           },
           child: Text('Checkout'),
         ),
