@@ -18,94 +18,102 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(height: 80),
-            Text(
-              'Sign In',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.orange,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 32),
-            _buildTextField(
-              controller: _emailController,
-              labelText: 'Email',
-              hintText: 'Enter your email',
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 16),
-            _buildPasswordField(
-              controller: _passwordController,
-              labelText: 'Password',
-              hintText: 'Enter your password',
-              isPasswordVisible: _isPasswordVisible,
-              onVisibilityToggle: () {
-                setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
-                });
-              },
-            ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  UserCredential userCredential =
-                  await _auth.signInWithEmailAndPassword(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  );
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(height: 80),
+                Text(
+                  'Sign In',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orange,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 32),
+                _buildTextField(
+                  controller: _emailController,
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: 16),
+                _buildPasswordField(
+                  controller: _passwordController,
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  isPasswordVisible: _isPasswordVisible,
+                  onVisibilityToggle: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+                SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      UserCredential userCredential =
+                      await _auth.signInWithEmailAndPassword(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
 
-                  if (userCredential.user != null) {
+                      if (userCredential.user != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CheckUsernamePage()),
+                        );
+                      }
+                    } catch (e) {
+                      // Handle errors or unsuccessful login
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Failed to sign in: ${e.toString()}'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: Text(
+                    'Sign In',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CheckUsernamePage()),
+                          builder: (context) => ForgotPasswordPage()),
                     );
-                  }
-                } catch (e) {
-                  // Handle errors or unsuccessful login
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Failed to sign in: ${e.toString()}'),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  },
+                  child: Text(
+                    "I don't remember my password",
+                    style: TextStyle(color: Colors.orange),
+                  ),
                 ),
-              ),
-              child: Text(
-                'Sign In',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
+                SizedBox(height: 80), // Add some space to avoid overlap with the button
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-                );
-              },
-              child: Text(
-                "I don't remember my password",
-                style: TextStyle(color: Colors.orange),
-              ),
-            ),
-            Spacer(),
-            Align(
-              alignment: Alignment.bottomLeft,
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: IconButton(
                 icon: Icon(Icons.arrow_back, size: 30, color: Colors.orange),
                 onPressed: () {
@@ -113,8 +121,8 @@ class _SignInPageState extends State<SignInPage> {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

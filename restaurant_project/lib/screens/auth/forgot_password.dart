@@ -31,58 +31,78 @@ class ForgotPasswordPage extends StatelessWidget {
       // Handle errors such as invalid email, user not found, etc.
       print("Failed to send password reset email: $e");
       // Show an error dialog or snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to send password reset email: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 80),
             Text(
               'Forgot password',
               style: TextStyle(
-                fontSize: 26,
+                fontSize: 32,
                 fontWeight: FontWeight.bold,
+                color: Colors.orange,
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 16),
             Text(
               "We'll send you an email to reset your password.",
               style: TextStyle(color: Colors.grey),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 32),
             TextFormField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 labelText: 'Email',
-                border: OutlineInputBorder(),
+                hintText: 'Enter your email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
             ),
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () => resetPassword(context),
               style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: EdgeInsets.symmetric(vertical: 16),
               ),
               child: Text(
                 'Reset Password',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+            Spacer(),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back, size: 30, color: Colors.orange),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ],
