@@ -18,57 +18,46 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 50),
+            SizedBox(height: 80),
             Text(
               'Sign In',
               style: TextStyle(
-                fontSize: 26,
+                fontSize: 32,
                 fontWeight: FontWeight.bold,
+                color: Colors.orange,
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 32),
-            TextField(
+            _buildTextField(
               controller: _emailController,
+              labelText: 'Email',
+              hintText: 'Enter your email',
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                border: OutlineInputBorder(),
-              ),
             ),
             SizedBox(height: 16),
-            TextFormField(
+            _buildPasswordField(
               controller: _passwordController,
-              obscureText: !_isPasswordVisible,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
-                ),
-              ),
+              labelText: 'Password',
+              hintText: 'Enter your password',
+              isPasswordVisible: _isPasswordVisible,
+              onVisibilityToggle: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
             ),
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () async {
                 try {
                   UserCredential userCredential =
-                      await _auth.signInWithEmailAndPassword(
+                  await _auth.signInWithEmailAndPassword(
                     email: _emailController.text,
                     password: _passwordController.text,
                   );
@@ -91,14 +80,15 @@ class _SignInPageState extends State<SignInPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
+                backgroundColor: Colors.orange,
+                padding: EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
               child: Text(
                 'Sign In',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
             TextButton(
@@ -110,20 +100,73 @@ class _SignInPageState extends State<SignInPage> {
               },
               child: Text(
                 "I don't remember my password",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.orange),
               ),
             ),
             Spacer(),
             Align(
               alignment: Alignment.bottomLeft,
               child: IconButton(
-                icon: Icon(Icons.arrow_back, size: 30),
+                icon: Icon(Icons.arrow_back, size: 30, color: Colors.orange),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required String hintText,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orange),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required String labelText,
+    required String hintText,
+    required bool isPasswordVisible,
+    required VoidCallback onVisibilityToggle,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: !isPasswordVisible,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orange),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: onVisibilityToggle,
         ),
       ),
     );

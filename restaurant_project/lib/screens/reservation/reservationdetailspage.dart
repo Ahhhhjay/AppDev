@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_project/models/dish.dart'; // Make sure the Dish class is correctly imported
+import 'package:restaurant_project/models/dish.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,13 +10,13 @@ class ReservationDetailsPage extends StatelessWidget {
   final String address;
   final int numberOfPeople;
   final DateTime dateTime;
-  final List<Dish> selectedDishes; // Include a list of selected dishes
+  final List<Dish> selectedDishes;
 
   ReservationDetailsPage({
     required this.address,
     required this.numberOfPeople,
     required this.dateTime,
-    required this.selectedDishes, // Require the list of dishes in the constructor
+    required this.selectedDishes,
   });
 
   Future<void> _bookTable(BuildContext context) async {
@@ -63,9 +63,12 @@ class ReservationDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Details"),
+        title: Text(
+          'Reservation Details',
+          style: TextStyle(color: Colors.orange),
+        ),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.orange),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -77,51 +80,73 @@ class ReservationDetailsPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: Colors.orange,
               ),
             ),
             SizedBox(height: 20),
-            Text(
-              address,
-              style: TextStyle(fontSize: 18),
-            ),
+            _buildDetailRow('Address:', address),
             SizedBox(height: 10),
-            Text(
-              'Number of People: $numberOfPeople',
-              style: TextStyle(fontSize: 18),
-            ),
+            _buildDetailRow('Number of People:', '$numberOfPeople'),
             SizedBox(height: 10),
-            Text(
-              'Date: ${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} at ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}',
-              style: TextStyle(fontSize: 18),
+            _buildDetailRow(
+              'Date:',
+              '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} at ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}',
             ),
             SizedBox(height: 10),
             Text(
               'Selected Dishes:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orange),
             ),
-            ...selectedDishes.map((dish) => Text(
-              '${dish.name} - \$${dish.price.toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 16),
-            )).toList(),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                _bookTable(context);
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+            SizedBox(height: 10),
+            ...selectedDishes.map((dish) => Card(
+              margin: EdgeInsets.symmetric(vertical: 5),
+              child: ListTile(
+                title: Text(dish.name, style: TextStyle(fontSize: 16)),
+                trailing: Text('\$${dish.price.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
               ),
-              child: Text(
-                'Book Now',
-                style: TextStyle(fontSize: 18),
+            )),
+            Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  _bookTable(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  backgroundColor: Colors.orange,
+                ),
+                child: Text(
+                  'Book Now',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$label ',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: TextStyle(fontSize: 18),
+            softWrap: true,
+          ),
+        ),
+      ],
     );
   }
 }

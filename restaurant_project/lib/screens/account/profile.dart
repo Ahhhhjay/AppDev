@@ -41,11 +41,11 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(_userName, style: TextStyle(color: Colors.black)),
+        title: Text(_userName, style: TextStyle(color: Colors.orange)),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.black),
+            icon: Icon(Icons.shopping_cart, color: Colors.orange),
             onPressed: () {
               Navigator.push(
                 context,
@@ -60,6 +60,10 @@ class _ProfilePageState extends State<ProfilePage> {
         child: ListView(
           children: [
             Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 4,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
@@ -68,9 +72,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.edit),
-              title: Text('Edit Profile'),
+            SizedBox(height: 16),
+            _buildListTile(
+              icon: Icons.edit,
+              title: 'Edit Profile',
               onTap: () {
                 Navigator.push(
                   context,
@@ -78,16 +83,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.restaurant_menu),
-              title: Text('Eating Preferences'),
+            _buildListTile(
+              icon: Icons.restaurant_menu,
+              title: 'Eating Preferences',
               onTap: () {
                 // Eating preferences logic
               },
             ),
-            ListTile(
-              leading: Icon(Icons.info_outline),
-              title: Text('About Us'),
+            _buildListTile(
+              icon: Icons.info_outline,
+              title: 'About Us',
               onTap: () {
                 Navigator.push(
                   context,
@@ -95,9 +100,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Log out'),
+            _buildListTile(
+              icon: Icons.exit_to_app,
+              title: 'Log out',
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pushAndRemoveUntil(
@@ -109,6 +114,22 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildListTile({required IconData icon, required String title, required VoidCallback onTap}) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: Icon(icon, color: Colors.orange),
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.w500)),
+        onTap: onTap,
+        trailing: Icon(Icons.arrow_forward_ios, color: Colors.orange),
       ),
     );
   }

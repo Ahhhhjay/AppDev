@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
-import 'reservationdetailspage.dart'; // Import ReservationDetailsPage
+import 'package:restaurant_project/screens/reservation/reservationdetailspage.dart';
 
 class BookTablePage extends StatefulWidget {
   @override
@@ -22,8 +22,8 @@ class _BookTablePageState extends State<BookTablePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book a Table'),
-        backgroundColor: Colors.green,
+        title: Text('Book a Table', style: TextStyle(color: Colors.orange)),
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -32,9 +32,9 @@ class _BookTablePageState extends State<BookTablePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextFormField(
+              _buildTextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                labelText: 'Name',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your name';
@@ -42,9 +42,10 @@ class _BookTablePageState extends State<BookTablePage> {
                   return null;
                 },
               ),
-              TextFormField(
+              SizedBox(height: 16),
+              _buildTextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(labelText: 'Phone Number'),
+                labelText: 'Phone Number',
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -53,13 +54,11 @@ class _BookTablePageState extends State<BookTablePage> {
                   return null;
                 },
               ),
-              TextFormField(
+              SizedBox(height: 16),
+              _buildDatePickerField(
                 controller: _dateController,
-                decoration: InputDecoration(
-                  labelText: 'Select a date',
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                readOnly: true,
+                labelText: 'Select a date',
+                icon: Icons.calendar_today,
                 onTap: () async {
                   DateTime? picked = await showDatePicker(
                     context: context,
@@ -74,13 +73,11 @@ class _BookTablePageState extends State<BookTablePage> {
                     });
                 },
               ),
-              TextFormField(
+              SizedBox(height: 16),
+              _buildDatePickerField(
                 controller: _timeController,
-                decoration: InputDecoration(
-                  labelText: 'Select a time',
-                  suffixIcon: Icon(Icons.access_time),
-                ),
-                readOnly: true,
+                labelText: 'Select a time',
+                icon: Icons.access_time,
                 onTap: () async {
                   TimeOfDay? picked = await showTimePicker(
                     context: context,
@@ -93,9 +90,10 @@ class _BookTablePageState extends State<BookTablePage> {
                     });
                 },
               ),
-              TextFormField(
+              SizedBox(height: 16),
+              _buildTextFormField(
                 controller: _guestsController,
-                decoration: InputDecoration(labelText: 'Number of Guests'),
+                labelText: 'Number of Guests',
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -104,19 +102,68 @@ class _BookTablePageState extends State<BookTablePage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _navigateToDetailsPage(context);
                   }
                 },
-                child: Text('Book Now'),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  backgroundColor: Colors.orange,
+                ),
+                child: Text(
+                  'Book Now',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String labelText,
+    TextInputType keyboardType = TextInputType.text,
+    FormFieldValidator<String>? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      keyboardType: keyboardType,
+      validator: validator,
+    );
+  }
+
+  Widget _buildDatePickerField({
+    required TextEditingController controller,
+    required String labelText,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        suffixIcon: Icon(icon),
+      ),
+      readOnly: true,
+      onTap: onTap,
     );
   }
 

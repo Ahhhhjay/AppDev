@@ -10,8 +10,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _isPasswordVisible = false;
@@ -29,8 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
@@ -55,79 +53,67 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 48,),
+            SizedBox(height: 48),
             Text(
               'Create an account',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
+                color: Colors.orange,
               ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16),
-            TextField(
+            SizedBox(height: 32),
+            _buildTextField(
               controller: _emailController,
+              labelText: 'Email',
+              hintText: 'Enter your email',
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-              ),
             ),
             SizedBox(height: 16),
-            TextField(
+            _buildPasswordField(
               controller: _passwordController,
-              obscureText: !_isPasswordVisible,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
-                ),
-              ),
+              labelText: 'Password',
+              hintText: 'Enter your password',
+              isPasswordVisible: _isPasswordVisible,
+              onVisibilityToggle: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
             ),
             SizedBox(height: 16),
-            TextField(
+            _buildPasswordField(
               controller: _confirmPasswordController,
-              obscureText: !_isConfirmPasswordVisible,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                hintText: 'Re-enter your password',
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isConfirmPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                    });
-                  },
-                ),
-              ),
+              labelText: 'Confirm Password',
+              hintText: 'Re-enter your password',
+              isPasswordVisible: _isConfirmPasswordVisible,
+              onVisibilityToggle: () {
+                setState(() {
+                  _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                });
+              },
             ),
             SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: registerUser,
-                style: ElevatedButton.styleFrom(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 child: Text(
                   'Create Account',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
             ),
@@ -139,10 +125,66 @@ class _RegisterPageState extends State<RegisterPage> {
                     MaterialPageRoute(builder: (context) => SignInPage()),
                   );
                 },
-                child: Text("I already have an account"),
+                child: Text(
+                  "I already have an account",
+                  style: TextStyle(color: Colors.orange),
+                ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required String hintText,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orange),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required String labelText,
+    required String hintText,
+    required bool isPasswordVisible,
+    required VoidCallback onVisibilityToggle,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: !isPasswordVisible,
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orange),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: onVisibilityToggle,
         ),
       ),
     );

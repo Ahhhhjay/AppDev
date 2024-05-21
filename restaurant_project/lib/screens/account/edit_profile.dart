@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:restaurant_project/screens/home/home_page.dart'; // Ensure you have the HomePage import
+import 'package:restaurant_project/screens/home/home_page.dart';
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -29,8 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
             children: [
               Text(
                 'Edit Profile',
@@ -40,31 +39,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               SizedBox(height: 16),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Full Name',
-                  border: OutlineInputBorder(),
-                ),
+              _buildTextFormField(
+                labelText: 'Full Name',
                 onSaved: (value) {
                   _name = value!;
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
+              _buildTextFormField(
+                labelText: 'Email',
                 onSaved: (value) {
                   _email = value!;
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
+              _buildTextFormField(
+                labelText: 'Password',
                 obscureText: true,
                 onSaved: (value) {
                   _password = value!;
@@ -88,6 +78,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextFormField({required String labelText, bool obscureText = false, required FormFieldSetter<String> onSaved}) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      obscureText: obscureText,
+      onSaved: onSaved,
     );
   }
 
