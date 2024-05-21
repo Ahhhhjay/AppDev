@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_project/models/dish.dart'; // Import the Dish model
 import 'package:restaurant_project/providers/cart_provider.dart';
-import 'package:restaurant_project/screens/home/home_page.dart';
-import 'package:restaurant_project/screens/reservation/reservationdetailspage.dart'; // Import ReservationDetailsPage
+import 'reservationdetailspage.dart'; // Import ReservationDetailsPage
 
 class BookTablePage extends StatefulWidget {
   @override

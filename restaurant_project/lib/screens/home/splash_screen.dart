@@ -1,12 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/main.dart';
-import 'package:restaurant_project/screens/account/profile.dart';
-import 'package:restaurant_project/screens/auth/sign_in.dart';
-import 'package:restaurant_project/screens/home/welcome_page.dart';
-
-import 'home_page.dart';
+import 'package:restaurant_project/screens/auth/register.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -40,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(milliseconds: 500), () {}); // Short delay after progress reaches 100%
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => SignInPage()),
+      MaterialPageRoute(builder: (context) => RegisterPage()),
     );
   }
 
