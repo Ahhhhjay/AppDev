@@ -4,6 +4,7 @@ import 'package:restaurant_project/recipe_provider.dart';
 import 'package:restaurant_project/cart_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:restaurant_project/home_page.dart';
+import 'package:restaurant_project/sign_in.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: HomePage(),
+        home: SignInPage(),
       ),
     );
   }

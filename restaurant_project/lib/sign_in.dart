@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_project/forgot_password.dart';
 import 'package:restaurant_project/profile.dart';
 import 'package:restaurant_project/register.dart';
+import 'package:restaurant_project/splash_screen.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -68,7 +69,7 @@ class _SignInPageState extends State<SignInPage> {
                   if (userCredential.user != null) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                      MaterialPageRoute(builder: (context) => SplashScreen()),
                     );
                   }
                 } catch (e) {

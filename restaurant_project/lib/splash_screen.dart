@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_project/main.dart';
+import 'package:restaurant_project/profile.dart';
 import 'package:restaurant_project/welcome_page.dart';
+
+import 'home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 3), () {}); // Duration of the splash screen
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => BookAndOrderPage()),
+      MaterialPageRoute(builder: (context) => HomePage()),
     );
   }
 
