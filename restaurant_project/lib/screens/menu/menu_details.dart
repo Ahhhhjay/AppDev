@@ -17,7 +17,7 @@ class MenuDetailsPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Image.network(dish.imageUrl, fit: BoxFit.cover, height: 250, width: double.infinity),
+            Image.asset(dish.imageUrl, fit: BoxFit.cover, height: 250, width: double.infinity),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

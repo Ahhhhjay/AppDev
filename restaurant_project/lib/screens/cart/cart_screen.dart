@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -20,10 +19,11 @@ class CartScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = provider.cartItems[index];
               return ListTile(
-                leading: CachedNetworkImage(
-                  imageUrl: item.imageUrl,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                leading: Image.asset(
+                  item.imageUrl,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
                 ),
                 title: Text(item.name),
                 subtitle: Column(
