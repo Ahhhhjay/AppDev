@@ -20,7 +20,13 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Menu'),
+        title: Text(
+          'Menu',
+          style: TextStyle(color: Colors.orange),
+        ),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.orange),
+        elevation: 0,
       ),
       body: Consumer<RecipeProvider>(
         builder: (context, provider, child) {
@@ -35,22 +41,53 @@ class _MenuScreenState extends State<MenuScreen> {
             itemCount: categories.length,
             itemBuilder: (context, index) {
               final category = categories[index];
-              return ExpansionTile(
-                title: Text(category.name),
-                leading: Image.asset(category.imageUrl, width: 50, height: 50),
-                children: category.foods.map((dish) => ListTile(
-                  title: Text(dish.name),
-                  subtitle: Text('\$${dish.price.toStringAsFixed(2)}'),
-                  leading: Image.asset(dish.imageUrl, width: 50, height: 50),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MenuDetailsPage(dish: dish),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: ExpansionTile(
+                    title: Text(
+                      category.name,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  },
-                )).toList(),
+                    ),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(25.0),
+                      child: Image.asset(category.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+                    ),
+                    children: category.foods.map((dish) => ListTile(
+                      title: Text(
+                        dish.name,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      subtitle: Text(
+                        '\$${dish.price.toStringAsFixed(2)}',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: Image.asset(dish.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+                      ),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MenuDetailsPage(dish: dish),
+                          ),
+                        );
+                      },
+                    )).toList(),
+                  ),
+                ),
               );
             },
           );

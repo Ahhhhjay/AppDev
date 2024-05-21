@@ -7,7 +7,6 @@ import 'package:restaurant_project/screens/home/home_page.dart';
 import 'package:restaurant_project/screens/home/splash_screen.dart';
 import 'package:restaurant_project/screens/account/check_username.dart';
 
-
 class SignInPage extends StatefulWidget {
   @override
   _SignInPageState createState() => _SignInPageState();
@@ -29,7 +28,7 @@ class _SignInPageState extends State<SignInPage> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -109,7 +108,7 @@ class _SignInPageState extends State<SignInPage> {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            Spacer(),
+            SizedBox(height: 24), // Added to give some space between the buttons
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
