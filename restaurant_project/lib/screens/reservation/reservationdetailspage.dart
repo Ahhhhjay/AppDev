@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_project/models/dish.dart'; // Make sure the Dish class is correctly imported
+import 'package:restaurant_project/providers/cart_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_project/screens/home/home_page.dart';
 
 class ReservationDetailsPage extends StatelessWidget {
   final String address;
@@ -13,6 +18,46 @@ class ReservationDetailsPage extends StatelessWidget {
     required this.dateTime,
     required this.selectedDishes, // Require the list of dishes in the constructor
   });
+
+  Future<void> _bookTable(BuildContext context) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('You need to be logged in to make a booking')),
+      );
+      return;
+    }
+
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    List<Map<String, dynamic>> dishes = selectedDishes.map((dish) {
+      return {
+        'name': dish.name,
+        'price': dish.price,
+      };
+    }).toList();
+
+    await FirebaseFirestore.instance.collection('bookings').add({
+      'address': address,
+      'numberOfPeople': numberOfPeople,
+      'date': dateTime,
+      'dishes': dishes,
+      'userId': user.uid,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    cartProvider.clearCart();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Booking successful!')),
+    );
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+          (Route<dynamic> route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +91,7 @@ class ReservationDetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Date: ${dateTime.year}-${dateTime.month.toString().padLeft(2,'0')}-${dateTime.day.toString().padLeft(2,'0')} at ${dateTime.hour.toString().padLeft(2,'0')}:${dateTime.minute.toString().padLeft(2,'0')}',
+              'Date: ${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} at ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 10),
@@ -61,21 +106,7 @@ class ReservationDetailsPage extends StatelessWidget {
             Spacer(),
             ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text('Confirmation'),
-                    content: Text('Your reservation has been booked!'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Close the dialog
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  ),
-                );
+                _bookTable(context);
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12),

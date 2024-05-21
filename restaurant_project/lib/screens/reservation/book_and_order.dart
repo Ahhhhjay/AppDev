@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_project/models/dish.dart'; // Import the Dish model
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:restaurant_project/screens/home/home_page.dart';
+import 'package:restaurant_project/screens/reservation/reservationdetailspage.dart'; // Import ReservationDetailsPage
 
 class BookTablePage extends StatefulWidget {
   @override
@@ -110,12 +112,9 @@ class _BookTablePageState extends State<BookTablePage> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await _bookTable(context);
+                    _navigateToDetailsPage(context);
                   }
                 },
-                style: ElevatedButton.styleFrom(
-
-                ),
                 child: Text('Book Now'),
               ),
             ],
@@ -125,44 +124,26 @@ class _BookTablePageState extends State<BookTablePage> {
     );
   }
 
-  Future<void> _bookTable(BuildContext context) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You need to be logged in to make a booking')),
-      );
-      return;
-    }
-
+  void _navigateToDetailsPage(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    List<Map<String, dynamic>> dishes = cartProvider.cartItems.map((item) {
-      return {
-        'name': item.name,
-        'price': item.price,
-        // 'quantity': item.quantity,
-      };
-    }).toList();
+    final selectedDishes = cartProvider.cartItems;
 
-    await FirebaseFirestore.instance.collection('bookings').add({
-      'name': _nameController.text,
-      'phone': _phoneController.text,
-      'date': selectedDate,
-      'time': selectedTime.format(context),
-      'guests': int.parse(_guestsController.text),
-      'dishes': dishes,
-      'userId': user.uid,
-      'timestamp': FieldValue.serverTimestamp(),
-    });
-
-    cartProvider.clearCart();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Booking successful!')),
-    );
-
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(
+        builder: (context) => ReservationDetailsPage(
+          address: 'Restaurant Address', // Replace with actual address
+          numberOfPeople: int.parse(_guestsController.text),
+          dateTime: DateTime(
+            selectedDate.year,
+            selectedDate.month,
+            selectedDate.day,
+            selectedTime.hour,
+            selectedTime.minute,
+          ),
+          selectedDishes: selectedDishes,
+        ),
+      ),
     );
   }
 }
