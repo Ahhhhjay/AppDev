@@ -73,7 +73,7 @@ class _SignInPageState extends State<SignInPage> {
                   if (userCredential.user != null) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => CheckUsernamePage()),
                     );
                   }
                 } catch (e) {
