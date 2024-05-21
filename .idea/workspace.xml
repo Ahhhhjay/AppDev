@@ -42,7 +42,7 @@
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
     "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "C:/Users/2142176/Documents/GitHub/AppDev/restaurant_project",
+    "last_opened_file_path": "C:/Users/johan/OneDrive/Documents/GitHub/AppDev/restaurant_project/assets/images",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -51,12 +51,15 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\assets\images" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\assets\images" />
       <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\reservation" />
       <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\menu" />
       <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\home" />
       <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\cart" />
-      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\auth" />
     </key>
   </component>
   <component name="RunManager">

@@ -75,9 +75,22 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/images/chicken-teriyaki.jpg
-    - assets/images/pad-see-ew.jpg
-    - assets/images/vegetable-curry.jpg
+    - assets/images/appetizers.jpg
+    - assets/images/spring_rolls.jpg
+    - assets/images/gyoza.jpg
+    - assets/images/edamame.jpg
+    - assets/images/main_course.jpg
+    - assets/images/ramen.jpg
+    - assets/images/bibimbap.jpg
+    - assets/images/general_tso_chicken.jpg
+    - assets/images/desserts.jpg
+    - assets/images/mochi_ice_cream.jpg
+    - assets/images/mango_sticky_rice.jpg
+    - assets/images/halo_halo.jpg
+    - assets/images/beverages.jpg
+    - assets/images/bubble_tea.jpg
+    - assets/images/sake.jpg
+    - assets/images/thai_iced_tea.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
