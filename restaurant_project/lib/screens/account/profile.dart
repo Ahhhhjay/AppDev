@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_project/screens/about_us.dart';
 import 'package:restaurant_project/screens/account/edit_profile.dart';
 import 'package:restaurant_project/screens/cart/cart_screen.dart';
-import 'package:restaurant_project/screens/auth/sign_in.dart'; // Ensure you have the sign-in page import
+import 'package:restaurant_project/screens/auth/sign_in.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String _userName = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserName();
+  }
+
+  Future<void> _fetchUserName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      setState(() {
+        _userName = userDoc['username'] ?? 'User';
+      });
+    } else {
+      setState(() {
+        _userName = 'User';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text('[Profile]', style: TextStyle(color: Colors.black)),
+        title: Text(_userName, style: TextStyle(color: Colors.black)),
         centerTitle: true,
         actions: [
           IconButton(

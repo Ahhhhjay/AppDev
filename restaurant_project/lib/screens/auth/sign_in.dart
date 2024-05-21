@@ -4,6 +4,8 @@ import 'package:restaurant_project/screens/auth/forgot_password.dart';
 import 'package:restaurant_project/screens/account/profile.dart';
 import 'package:restaurant_project/screens/auth/register.dart';
 import 'package:restaurant_project/screens/home/splash_screen.dart';
+import 'package:restaurant_project/screens/account/check_username.dart';
+
 
 class SignInPage extends StatefulWidget {
   @override
@@ -69,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
                   if (userCredential.user != null) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SplashScreen()),
+                      MaterialPageRoute(builder: (context) => CheckUsernamePage()),
                     );
                   }
                 } catch (e) {
