@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (user != null) {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
       setState(() {
-        _userName = userDoc['username'] ?? 'User';
+        _userName = userDoc['name'] ?? 'User';
       });
     } else {
       setState(() {

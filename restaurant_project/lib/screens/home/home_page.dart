@@ -5,12 +5,18 @@ import 'package:restaurant_project/screens/cart/cart_screen.dart';
 import 'package:restaurant_project/screens/reservation/book_and_order.dart';
 
 class HomePage extends StatefulWidget {
+  final int initialIndex;
+
+  HomePage({this.initialIndex = 0});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex;
+
+  _HomePageState() : _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
     MenuScreen(),
@@ -23,6 +29,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
   }
 
   @override

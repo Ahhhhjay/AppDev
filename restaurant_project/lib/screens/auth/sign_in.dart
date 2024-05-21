@@ -69,6 +69,7 @@ class _SignInPageState extends State<SignInPage> {
                     email: _emailController.text,
                     password: _passwordController.text,
                   );
+
                   if (userCredential.user != null) {
                     Navigator.push(
                       context,

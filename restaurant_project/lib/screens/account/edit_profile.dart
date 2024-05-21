@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_project/screens/home/home_page.dart'; // Ensure you have the HomePage import
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -111,19 +112,42 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
         // Update the user's information in Firestore
         if (updates.isNotEmpty) {
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).set(updates, SetOptions(merge: true));
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set(updates, SetOptions(merge: true));
         }
 
         // Update the user's email and password in Firebase Auth
         if (_email.isNotEmpty) {
-          await user.updateEmail(_email);
+          try {
+            await user.updateEmail(_email);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to update email: $e')),
+            );
+            return;
+          }
         }
         if (_password.isNotEmpty) {
-          await user.updatePassword(_password);
+          try {
+            await user.updatePassword(_password);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to update password: $e')),
+            );
+            return;
+          }
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Profile updated successfully!')),
+        );
+
+        // Navigate to HomePage with ProfilePage selected after successful update
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(initialIndex: 3)),
         );
       }
     }
