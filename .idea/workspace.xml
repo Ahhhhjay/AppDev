@@ -50,6 +50,15 @@
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\reservation" />
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\menu" />
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\home" />
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\cart" />
+      <recent name="C:\Users\johan\OneDrive\Documents\GitHub\AppDev\restaurant_project\lib\screens\auth" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/restaurant_project/lib/main.dart" />
@@ -82,5 +91,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/restaurant_project/lib/main.dart</url>
+          <line>24</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

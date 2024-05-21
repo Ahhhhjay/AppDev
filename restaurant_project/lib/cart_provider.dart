@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:restaurant_project/recipe.dart';
+import 'package:restaurant_project/models/recipe.dart';
 
 class CartProvider with ChangeNotifier {
   List<Recipe> _cartItems = [];

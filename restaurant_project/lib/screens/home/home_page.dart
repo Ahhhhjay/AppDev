@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/menu_screen.dart';
-import 'package:restaurant_project/profile.dart';
-import 'package:restaurant_project/cart_screen.dart';
-import 'package:restaurant_project/book_and_order.dart';
+import 'package:restaurant_project/screens/menu/menu_screen.dart';
+import 'package:restaurant_project/screens/account/profile.dart';
+import 'package:restaurant_project/screens/cart/cart_screen.dart';
+import 'package:restaurant_project/screens/reservation/book_and_order.dart';
 
 class HomePage extends StatefulWidget {
   @override

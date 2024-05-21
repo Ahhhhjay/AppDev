@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_project/main.dart';
-import 'package:restaurant_project/profile.dart';
-import 'package:restaurant_project/welcome_page.dart';
+import 'package:restaurant_project/screens/account/profile.dart';
+import 'package:restaurant_project/screens/home/welcome_page.dart';
 
 import 'home_page.dart';
 

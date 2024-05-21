@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:restaurant_project/forgot_password.dart';
-import 'package:restaurant_project/profile.dart';
-import 'package:restaurant_project/register.dart';
-import 'package:restaurant_project/splash_screen.dart';
+import 'package:restaurant_project/screens/auth/forgot_password.dart';
+import 'package:restaurant_project/screens/account/profile.dart';
+import 'package:restaurant_project/screens/auth/register.dart';
+import 'package:restaurant_project/screens/home/splash_screen.dart';
 
 class SignInPage extends StatefulWidget {
   @override

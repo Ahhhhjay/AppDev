@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_project/cart_provider.dart';
+import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class CartScreen extends StatelessWidget {

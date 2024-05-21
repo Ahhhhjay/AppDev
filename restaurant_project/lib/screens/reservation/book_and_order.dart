@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:intl/intl.dart'; // Add this package for date and time formatting
-import 'package:restaurant_project/reservationdetailspage.dart'; // Make sure this is correctly imported
+import 'package:restaurant_project/screens/reservation/reservationdetailspage.dart'; // Make sure this is correctly imported
 
 class BookTablePage extends StatefulWidget {
   @override

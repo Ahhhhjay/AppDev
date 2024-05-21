@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/about_us.dart';
-import 'package:restaurant_project/edit_profile.dart';
-import 'package:restaurant_project/cart_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restaurant_project/screens/about_us.dart';
+import 'package:restaurant_project/screens/account/edit_profile.dart';
+import 'package:restaurant_project/screens/cart/cart_screen.dart';
+import 'package:restaurant_project/screens/auth/sign_in.dart'; // Ensure you have the sign-in page import
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -67,8 +69,13 @@ class ProfilePage extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Log out'),
-              onTap: () {
-                // Log out logic
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignInPage()),
+                      (route) => false,
+                );
               },
             ),
           ],

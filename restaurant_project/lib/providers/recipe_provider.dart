@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/api_service.dart';
-import 'package:restaurant_project/recipe.dart';
+import 'package:restaurant_project/providers/api_service.dart';
+import 'package:restaurant_project/models/recipe.dart';
 
 class RecipeProvider with ChangeNotifier {
   List<Recipe> _recipes = [];

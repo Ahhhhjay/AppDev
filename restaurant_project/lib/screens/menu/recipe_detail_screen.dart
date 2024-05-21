@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_project/recipe.dart';
-import 'package:restaurant_project/cart_provider.dart';
+import 'package:restaurant_project/models/recipe.dart';
+import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'cart_screen.dart';
+import '../cart/cart_screen.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
   final Recipe recipe;

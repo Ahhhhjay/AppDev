@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/menu_screen.dart';
+import 'package:restaurant_project/screens/menu/menu_screen.dart';
 
 class BookAndOrderPage extends StatelessWidget {
   @override

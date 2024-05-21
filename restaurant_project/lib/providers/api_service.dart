@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:restaurant_project/recipe.dart';
+import 'package:restaurant_project/models/recipe.dart';
 
 class ApiService {
   static const String baseUrl = 'https://tasty.p.rapidapi.com';

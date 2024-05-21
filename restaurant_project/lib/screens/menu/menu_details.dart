@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/dish.dart';  // Ensure you have the correct import for the Dish model
+import 'package:restaurant_project/models/dish.dart';  // Ensure you have the correct import for the Dish model
 
 class MenuDetailsPage extends StatelessWidget {
   final Dish dish;

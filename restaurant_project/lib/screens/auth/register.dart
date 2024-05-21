@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:restaurant_project/sign_in.dart';
+import 'package:restaurant_project/screens/auth/sign_in.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

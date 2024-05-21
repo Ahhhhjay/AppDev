@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_project/dish.dart'; // Make sure the Dish class is correctly imported
+import 'package:restaurant_project/models/dish.dart'; // Make sure the Dish class is correctly imported
 
 class ReservationDetailsPage extends StatelessWidget {
   final String address;

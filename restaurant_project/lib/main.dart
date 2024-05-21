@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_project/recipe_provider.dart';
-import 'package:restaurant_project/cart_provider.dart';
+import 'package:restaurant_project/providers/recipe_provider.dart';
+import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:restaurant_project/home_page.dart';
-import 'package:restaurant_project/sign_in.dart';
+import 'package:restaurant_project/screens/home/home_page.dart';
+import 'package:restaurant_project/screens/auth/sign_in.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
