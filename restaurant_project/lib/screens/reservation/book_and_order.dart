@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart'; // Add this package for date and time formatting
-import 'package:restaurant_project/screens/reservation/reservationdetailspage.dart'; // Make sure this is correctly imported
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_project/providers/cart_provider.dart';
+import 'package:restaurant_project/screens/home/home_page.dart';
 
 class BookTablePage extends StatefulWidget {
   @override
@@ -34,11 +37,23 @@ class _BookTablePageState extends State<BookTablePage> {
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(labelText: 'Name'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _phoneController,
                 decoration: InputDecoration(labelText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _dateController,
@@ -47,6 +62,19 @@ class _BookTablePageState extends State<BookTablePage> {
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
                 readOnly: true,
+                onTap: () async {
+                  DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: selectedDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2101),
+                  );
+                  if (picked != null && picked != selectedDate)
+                    setState(() {
+                      selectedDate = picked;
+                      _dateController.text = "${picked.toLocal()}".split(' ')[0];
+                    });
+                },
               ),
               TextFormField(
                 controller: _timeController,
@@ -55,45 +83,86 @@ class _BookTablePageState extends State<BookTablePage> {
                   suffixIcon: Icon(Icons.access_time),
                 ),
                 readOnly: true,
+                onTap: () async {
+                  TimeOfDay? picked = await showTimePicker(
+                    context: context,
+                    initialTime: selectedTime,
+                  );
+                  if (picked != null && picked != selectedTime)
+                    setState(() {
+                      selectedTime = picked;
+                      _timeController.text = picked.format(context);
+                    });
+                },
               ),
               TextFormField(
                 controller: _guestsController,
                 decoration: InputDecoration(labelText: 'Number of Guests'),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter the number of guests';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ReservationDetailsPage(
-                        address: "123 Disney Way, Willingmington, WV 24921",
-                        numberOfPeople: int.tryParse(_guestsController.text) ?? 1,
-                        dateTime: DateTime(
-                          selectedDate.year,
-                          selectedDate.month,
-                          selectedDate.day,
-                          selectedTime.hour,
-                          selectedTime.minute,
-                        ),
-                        // Assuming selectedDishes is required
-                        selectedDishes: [], // You would populate this from your menu selection logic
-                      ),
-                    ),
-                  );
-                  // if (_formKey.currentState.validate()) {
-                  //   // Assuming the ReservationDetailsPage accepts parameters
-                  //
-                  // }
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await _bookTable(context);
+                  }
                 },
-                style: ElevatedButton.styleFrom(),
+                style: ElevatedButton.styleFrom(
+
+                ),
                 child: Text('Book Now'),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _bookTable(BuildContext context) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('You need to be logged in to make a booking')),
+      );
+      return;
+    }
+
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    List<Map<String, dynamic>> dishes = cartProvider.cartItems.map((item) {
+      return {
+        'name': item.name,
+        'price': item.price,
+        'quantity': item.quantity,
+      };
+    }).toList();
+
+    await FirebaseFirestore.instance.collection('bookings').add({
+      'name': _nameController.text,
+      'phone': _phoneController.text,
+      'date': selectedDate,
+      'time': selectedTime.format(context),
+      'guests': int.parse(_guestsController.text),
+      'dishes': dishes,
+      'userId': user.uid,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    cartProvider.clearCart();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Booking successful!')),
+    );
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
     );
   }
 }

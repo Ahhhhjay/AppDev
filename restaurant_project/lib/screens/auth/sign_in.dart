@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_project/screens/auth/forgot_password.dart';
 import 'package:restaurant_project/screens/account/profile.dart';
 import 'package:restaurant_project/screens/auth/register.dart';
+import 'package:restaurant_project/screens/home/home_page.dart';
 import 'package:restaurant_project/screens/home/splash_screen.dart';
 import 'package:restaurant_project/screens/account/check_username.dart';
 
@@ -71,7 +72,7 @@ class _SignInPageState extends State<SignInPage> {
                   if (userCredential.user != null) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CheckUsernamePage()),
+                      MaterialPageRoute(builder: (context) => HomePage()),
                     );
                   }
                 } catch (e) {
