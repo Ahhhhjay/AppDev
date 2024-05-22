@@ -109,30 +109,6 @@ class CartScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton(
-          onPressed: () {
-            Provider.of<CartProvider>(context, listen: false).clearCart();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Checkout successful!')),
-            );
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => HomePage(initialIndex: 0)),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            backgroundColor: Colors.orange,
-          ),
-          child: Text(
-            'Checkout',
-            style: TextStyle(fontSize: 18, color: Colors.white),
-          ),
-        ),
       ),
     );
   }

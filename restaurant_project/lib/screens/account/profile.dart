@@ -84,13 +84,6 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             _buildListTile(
-              icon: Icons.restaurant_menu,
-              title: 'Eating Preferences',
-              onTap: () {
-                // Eating preferences logic
-              },
-            ),
-            _buildListTile(
               icon: Icons.info_outline,
               title: 'About Us',
               onTap: () {

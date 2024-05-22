@@ -29,10 +29,10 @@ class _CheckUsernamePageState extends State<CheckUsernamePage> {
         if (userDoc.exists &&
             userDoc.data() != null &&
             userDoc.get('name') != null) {
-          // If username exists, navigate to HomePage
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
+            (Route<dynamic> route) => false,
           );
         }
       } catch (e) {
