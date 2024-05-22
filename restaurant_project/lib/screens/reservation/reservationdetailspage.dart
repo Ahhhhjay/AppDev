@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_project/models/dish.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +27,6 @@ class ReservationDetailsPage extends StatelessWidget {
       return;
     }
 
-    // Calculate total price for each dish
     List<Map<String, dynamic>> dishesWithTotalPrice = selectedDishes.map((item) {
       return {
         'name': item['dish'].name,
@@ -38,7 +36,6 @@ class ReservationDetailsPage extends StatelessWidget {
       };
     }).toList();
 
-    // Calculate the overall total price
     double totalPrice = dishesWithTotalPrice.fold(0.0, (sum, item) => sum + item['totalPrice']);
 
     await FirebaseFirestore.instance
@@ -69,7 +66,6 @@ class ReservationDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate the overall total price
     double totalPrice = selectedDishes.fold(0.0, (sum, item) => sum + (item['quantity'] * item['dish'].price));
 
     return Scaffold(

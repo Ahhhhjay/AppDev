@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(Duration(milliseconds: 500), () {}); // Short delay after progress reaches 100%
+    await Future.delayed(Duration(milliseconds: 500), () {});
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => RegisterPage()),
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Image.asset(
-            'assets/asian_food_logo.jpeg', // Ensure this path is correct
+            'assets/asian_food_logo.jpeg',
             fit: BoxFit.cover,
           ),
           Column(

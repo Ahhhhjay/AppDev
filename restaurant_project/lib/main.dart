@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/recipe_provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:restaurant_project/screens/auth/sign_in.dart';
 import 'package:restaurant_project/screens/home/splash_screen.dart';
 
 

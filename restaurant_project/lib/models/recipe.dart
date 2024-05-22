@@ -12,7 +12,8 @@ class Recipe {
   factory Recipe.fromJson(Map<String, dynamic> json) {
     List<String> ingredientsList = [];
     if (json['sections'] != null && json['sections'][0]['components'] != null) {
-      ingredientsList = List<String>.from(json['sections'][0]['components'].map((x) => x['ingredient']['name'].toString()));
+      ingredientsList = List<String>.from(json['sections'][0]['components']
+          .map((x) => x['ingredient']['name'].toString()));
     }
     return Recipe(
       name: json['name'],

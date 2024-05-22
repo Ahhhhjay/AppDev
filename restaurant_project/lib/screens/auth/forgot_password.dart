@@ -9,7 +9,6 @@ class ForgotPasswordPage extends StatelessWidget {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text);
-      // Show a dialog or snackbar to inform the user that the password reset email has been sent
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -29,9 +28,7 @@ class ForgotPasswordPage extends StatelessWidget {
         },
       );
     } catch (e) {
-      // Handle errors such as invalid email, user not found, etc.
       print("Failed to send password reset email: $e");
-      // Show an error dialog or snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to send password reset email: $e'),

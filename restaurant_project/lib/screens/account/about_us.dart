@@ -16,13 +16,11 @@ class AboutUsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Center(
-              // Replace with your asset image or network image as needed
-              child: Icon(Icons.restaurant_menu, size: 100), // Placeholder for a large image
+              child: Icon(Icons.restaurant_menu, size: 100),
             ),
             SizedBox(height: 24),
             Center(
-              // Replace with your asset image or network image as needed
-              child: Icon(Icons.fastfood, size: 48), // Placeholder for a smaller image
+              child: Icon(Icons.fastfood, size: 48),
             ),
             SizedBox(height: 24),
             Text(
@@ -40,19 +38,18 @@ class AboutUsPage extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            // Example of chef card, repeat this for each chef
             ChefCard(
               chefName: 'Steve Steve',
               description:
-              'Chef Steve Steve, acclaimed for innovative dishes and Michelin stars, has reshaped global culinary arts.',
+                  'Chef Steve Steve, acclaimed for innovative dishes and Michelin stars, has reshaped global culinary arts.',
             ),
-            // Add more ChefCard widgets for each additional chef
           ],
         ),
       ),
     );
   }
 }
+
 class ChefCard extends StatelessWidget {
   final String chefName;
   final String description;
@@ -77,4 +74,3 @@ class ChefCard extends StatelessWidget {
     );
   }
 }
-

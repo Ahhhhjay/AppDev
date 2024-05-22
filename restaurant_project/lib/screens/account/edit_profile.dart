@@ -102,14 +102,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        // Create a map to hold the updates
         Map<String, dynamic> updates = {};
 
-        // Only add non-empty fields to the updates map
         if (_name.isNotEmpty) {
           updates['name'] = _name;
         }
@@ -117,7 +114,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           updates['email'] = _email;
         }
 
-        // Update the user's information in Firestore
         if (updates.isNotEmpty) {
           await FirebaseFirestore.instance
               .collection('users')
@@ -125,7 +121,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               .set(updates, SetOptions(merge: true));
         }
 
-        // Update the user's email and password in Firebase Auth
         if (_email.isNotEmpty) {
           try {
             await user.updateEmail(_email);
@@ -151,7 +146,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(content: Text('Profile updated successfully!')),
         );
 
-        // Navigate to HomePage with ProfilePage selected after successful update
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage(initialIndex: 3)),

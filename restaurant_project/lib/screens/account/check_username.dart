@@ -34,10 +34,14 @@ class _CheckUsernamePageState extends State<CheckUsernamePage> {
             MaterialPageRoute(builder: (context) => HomePage()),
             (Route<dynamic> route) => false,
           );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => CompleteProfilePage()),
+          );
         }
       } catch (e) {
         print('Error checking username: $e');
-        // Handle the case where 'name' field might not exist or any other error
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => CompleteProfilePage()),
@@ -45,6 +49,10 @@ class _CheckUsernamePageState extends State<CheckUsernamePage> {
       }
     } else {
       print('No user logged in');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => CompleteProfilePage()),
+      );
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:restaurant_project/screens/about_us.dart';
+import 'package:restaurant_project/screens/account/about_us.dart';
 import 'package:restaurant_project/screens/account/edit_profile.dart';
 import 'package:restaurant_project/screens/cart/cart_screen.dart';
 import 'package:restaurant_project/screens/auth/sign_in.dart';

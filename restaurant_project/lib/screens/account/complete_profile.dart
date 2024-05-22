@@ -64,12 +64,10 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        // Update the user's information in Firestore
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'name': _username,
         }, SetOptions(merge: true));
 
-        // Navigate to HomePage
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),

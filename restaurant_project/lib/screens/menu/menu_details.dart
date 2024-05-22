@@ -92,7 +92,7 @@ class _MenuDetailsPageState extends State<MenuDetailsPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('${widget.dish.name} added to cart')),
                         );
-                        Navigator.pop(context);  // Navigate back to the previous screen
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,

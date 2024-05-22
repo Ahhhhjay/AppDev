@@ -7,6 +7,7 @@ class RecipeProvider with ChangeNotifier {
   bool _loading = false;
 
   List<Category> get categories => _categories;
+
   bool get loading => _loading;
 
   Future<void> fetchCategories() async {

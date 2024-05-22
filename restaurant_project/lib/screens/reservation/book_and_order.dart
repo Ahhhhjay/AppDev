@@ -177,7 +177,7 @@ class _BookTablePageState extends State<BookTablePage> {
       context,
       MaterialPageRoute(
         builder: (context) => ReservationDetailsPage(
-          address: 'Restaurant Address', // Replace with actual address
+          address: 'Restaurant Address',
           numberOfPeople: int.parse(_guestsController.text),
           dateTime: DateTime(
             selectedDate.year,

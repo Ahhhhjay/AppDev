@@ -74,7 +74,6 @@ class _SignInPageState extends State<SignInPage> {
                         );
                       }
                     } catch (e) {
-                      // Handle errors or unsuccessful login
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Failed to sign in: ${e.toString()}'),
@@ -109,7 +108,6 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 SizedBox(height: 80),
-                // Add some space to avoid overlap with the button
               ],
             ),
           ),
