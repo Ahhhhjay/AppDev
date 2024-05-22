@@ -19,11 +19,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.orange),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
+        title: Text('Edit Profile', style: TextStyle(color: Colors.orange)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,13 +32,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           key: _formKey,
           child: ListView(
             children: [
-              Text(
-                'Edit Profile',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               SizedBox(height: 16),
               _buildTextFormField(
                 labelText: 'Full Name',
@@ -64,14 +58,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ElevatedButton(
                 onPressed: _updateProfile,
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: Text(
                   'Update Profile',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ],
@@ -81,11 +76,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildTextFormField({required String labelText, bool obscureText = false, required FormFieldSetter<String> onSaved}) {
+  Widget _buildTextFormField({
+    required String labelText,
+    bool obscureText = false,
+    required FormFieldSetter<String> onSaved,
+  }) {
     return TextFormField(
       decoration: InputDecoration(
         labelText: labelText,
+        labelStyle: TextStyle(color: Colors.orange),
         border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orange),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
