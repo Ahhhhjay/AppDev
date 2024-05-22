@@ -37,12 +37,15 @@ class ReservationDetailsPage extends StatelessWidget {
       };
     }).toList();
 
-    await FirebaseFirestore.instance.collection('bookings').add({
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('bookings')
+        .add({
       'address': address,
       'numberOfPeople': numberOfPeople,
       'date': dateTime,
       'dishes': dishes,
-      'userId': user.uid,
       'timestamp': FieldValue.serverTimestamp(),
     });
 
