@@ -33,9 +33,9 @@ class CartProvider with ChangeNotifier {
           .get();
       _cartItems = snapshot.docs
           .map((doc) => {
-        'dish': Dish.fromJson(doc.data() as Map<String, dynamic>),
-        'quantity': doc['quantity']
-      })
+                'dish': Dish.fromJson(doc.data() as Map<String, dynamic>),
+                'quantity': doc['quantity']
+              })
           .toList();
       notifyListeners();
     } catch (e) {
@@ -45,7 +45,8 @@ class CartProvider with ChangeNotifier {
 
   Future<void> addToCart(Dish dish, int quantity) async {
     try {
-      final existingIndex = _cartItems.indexWhere((item) => item['dish'].name == dish.name);
+      final existingIndex =
+          _cartItems.indexWhere((item) => item['dish'].name == dish.name);
       if (existingIndex >= 0) {
         _cartItems[existingIndex]['quantity'] += quantity;
       } else {
@@ -69,7 +70,7 @@ class CartProvider with ChangeNotifier {
           .collection('users')
           .doc(_userId)
           .collection('cart')
-          .where('dish.food_name', isEqualTo: dish.name)
+          .where('dish.name', isEqualTo: dish.name)
           .get();
       for (var doc in snapshot.docs) {
         await _firestore

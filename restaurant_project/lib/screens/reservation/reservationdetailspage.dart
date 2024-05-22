@@ -10,7 +10,7 @@ class ReservationDetailsPage extends StatelessWidget {
   final String address;
   final int numberOfPeople;
   final DateTime dateTime;
-  final List<Dish> selectedDishes;
+  final List<Map<String, dynamic>> selectedDishes;
 
   ReservationDetailsPage({
     required this.address,
@@ -28,15 +28,6 @@ class ReservationDetailsPage extends StatelessWidget {
       return;
     }
 
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-
-    List<Map<String, dynamic>> dishes = selectedDishes.map((dish) {
-      return {
-        'name': dish.name,
-        'price': dish.price,
-      };
-    }).toList();
-
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
@@ -45,11 +36,11 @@ class ReservationDetailsPage extends StatelessWidget {
       'address': address,
       'numberOfPeople': numberOfPeople,
       'date': dateTime,
-      'dishes': dishes,
+      'dishes': selectedDishes,
       'timestamp': FieldValue.serverTimestamp(),
     });
 
-    cartProvider.clearCart();
+    Provider.of<CartProvider>(context, listen: false).clearCart();
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Booking successful!')),
@@ -99,17 +90,27 @@ class ReservationDetailsPage extends StatelessWidget {
             Text(
               'Selected Dishes:',
               style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.orange),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.orange,
+              ),
             ),
             SizedBox(height: 10),
-            ...selectedDishes.map((dish) => Card(
+            ...selectedDishes.map((item) => Card(
                   margin: EdgeInsets.symmetric(vertical: 5),
                   child: ListTile(
-                    title: Text(dish.name, style: TextStyle(fontSize: 16)),
-                    trailing: Text('\$${dish.price.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 16)),
+                    title: Text(
+                      item['dish'].name,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    subtitle: Text(
+                      'Quantity: ${item['quantity']}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    trailing: Text(
+                      '\$${item['dish'].price.toStringAsFixed(2)}',
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
                 )),
             Spacer(),

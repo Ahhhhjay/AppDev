@@ -171,7 +171,7 @@ class _BookTablePageState extends State<BookTablePage> {
 
   void _navigateToDetailsPage(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final selectedDishes = cartProvider.cartItems.map((item) => item['dish'] as Dish).toList();
+    final selectedDishes = cartProvider.cartItems;
 
     Navigator.push(
       context,
