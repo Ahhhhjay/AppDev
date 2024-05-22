@@ -28,6 +28,19 @@ class ReservationDetailsPage extends StatelessWidget {
       return;
     }
 
+    // Calculate total price for each dish
+    List<Map<String, dynamic>> dishesWithTotalPrice = selectedDishes.map((item) {
+      return {
+        'name': item['dish'].name,
+        'price': item['dish'].price,
+        'quantity': item['quantity'],
+        'totalPrice': item['quantity'] * item['dish'].price,
+      };
+    }).toList();
+
+    // Calculate the overall total price
+    double totalPrice = dishesWithTotalPrice.fold(0.0, (sum, item) => sum + item['totalPrice']);
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
@@ -36,7 +49,8 @@ class ReservationDetailsPage extends StatelessWidget {
       'address': address,
       'numberOfPeople': numberOfPeople,
       'date': dateTime,
-      'dishes': selectedDishes,
+      'dishes': dishesWithTotalPrice,
+      'totalPrice': totalPrice,
       'timestamp': FieldValue.serverTimestamp(),
     });
 
@@ -49,12 +63,15 @@ class ReservationDetailsPage extends StatelessWidget {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),
-      (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Calculate the overall total price
+    double totalPrice = selectedDishes.fold(0.0, (sum, item) => sum + (item['quantity'] * item['dish'].price));
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -97,22 +114,27 @@ class ReservationDetailsPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             ...selectedDishes.map((item) => Card(
-                  margin: EdgeInsets.symmetric(vertical: 5),
-                  child: ListTile(
-                    title: Text(
-                      item['dish'].name,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    subtitle: Text(
-                      'Quantity: ${item['quantity']}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    trailing: Text(
-                      '\$${item['dish'].price.toStringAsFixed(2)}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                )),
+              margin: EdgeInsets.symmetric(vertical: 5),
+              child: ListTile(
+                title: Text(
+                  item['dish'].name,
+                  style: TextStyle(fontSize: 16),
+                ),
+                subtitle: Text(
+                  'Quantity: ${item['quantity']}',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: Text(
+                  '\$${(item['quantity'] * item['dish'].price).toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            )),
+            SizedBox(height: 10),
+            _buildDetailRow(
+              'Total Price:',
+              '\$${totalPrice.toStringAsFixed(2)}',
+            ),
             Spacer(),
             SizedBox(
               width: double.infinity,
