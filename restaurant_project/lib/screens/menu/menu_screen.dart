@@ -13,7 +13,9 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<RecipeProvider>(context, listen: false).fetchCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<RecipeProvider>(context, listen: false).fetchCategories();
+    });
   }
 
   @override

@@ -10,16 +10,19 @@ class RecipeProvider with ChangeNotifier {
   bool get loading => _loading;
 
   Future<void> fetchCategories() async {
-    _loading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       _categories = await ApiService().fetchCategories();
     } catch (e) {
       print(e);
     } finally {
-      _loading = false;
-      notifyListeners();
+      _setLoading(false);
     }
+  }
+
+  void _setLoading(bool value) {
+    _loading = value;
+    notifyListeners();
   }
 }
