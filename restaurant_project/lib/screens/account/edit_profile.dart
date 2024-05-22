@@ -41,13 +41,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               SizedBox(height: 16),
               _buildTextFormField(
-                labelText: 'Email',
-                onSaved: (value) {
-                  _email = value!;
-                },
-              ),
-              SizedBox(height: 16),
-              _buildTextFormField(
                 labelText: 'Password',
                 obscureText: true,
                 onSaved: (value) {

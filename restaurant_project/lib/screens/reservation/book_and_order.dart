@@ -16,8 +16,8 @@ class _BookTablePageState extends State<BookTablePage> {
   final _dateController = TextEditingController();
   final _timeController = TextEditingController();
   final _guestsController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +63,21 @@ class _BookTablePageState extends State<BookTablePage> {
                 onTap: () async {
                   DateTime? picked = await showDatePicker(
                     context: context,
-                    initialDate: selectedDate,
+                    initialDate: selectedDate ?? DateTime.now(),
                     firstDate: DateTime.now(),
                     lastDate: DateTime(2101),
                   );
-                  if (picked != null && picked != selectedDate)
+                  if (picked != null)
                     setState(() {
                       selectedDate = picked;
-                      _dateController.text =
-                          "${picked.toLocal()}".split(' ')[0];
+                      _dateController.text = "${picked.toLocal()}".split(' ')[0];
                     });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a date';
+                  }
+                  return null;
                 },
               ),
               SizedBox(height: 16),
@@ -83,13 +88,19 @@ class _BookTablePageState extends State<BookTablePage> {
                 onTap: () async {
                   TimeOfDay? picked = await showTimePicker(
                     context: context,
-                    initialTime: selectedTime,
+                    initialTime: selectedTime ?? TimeOfDay.now(),
                   );
-                  if (picked != null && picked != selectedTime)
+                  if (picked != null)
                     setState(() {
                       selectedTime = picked;
                       _timeController.text = picked.format(context);
                     });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a time';
+                  }
+                  return null;
                 },
               ),
               SizedBox(height: 16),
@@ -154,6 +165,7 @@ class _BookTablePageState extends State<BookTablePage> {
     required String labelText,
     required IconData icon,
     required VoidCallback onTap,
+    FormFieldValidator<String>? validator,
   }) {
     return TextFormField(
       controller: controller,
@@ -166,6 +178,7 @@ class _BookTablePageState extends State<BookTablePage> {
       ),
       readOnly: true,
       onTap: onTap,
+      validator: validator,
     );
   }
 
@@ -180,11 +193,11 @@ class _BookTablePageState extends State<BookTablePage> {
           address: 'Restaurant Address',
           numberOfPeople: int.parse(_guestsController.text),
           dateTime: DateTime(
-            selectedDate.year,
-            selectedDate.month,
-            selectedDate.day,
-            selectedTime.hour,
-            selectedTime.minute,
+            selectedDate!.year,
+            selectedDate!.month,
+            selectedDate!.day,
+            selectedTime!.hour,
+            selectedTime!.minute,
           ),
           selectedDishes: selectedDishes,
         ),
