@@ -3,16 +3,23 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_project/models/dish.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 
-class RecipeDetailScreen extends StatelessWidget {
+class RecipeDetailScreen extends StatefulWidget {
   final Dish dish;
 
   RecipeDetailScreen({required this.dish});
 
   @override
+  _RecipeDetailScreenState createState() => _RecipeDetailScreenState();
+}
+
+class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
+  int _quantity = 1;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(dish.name),
+        title: Text(widget.dish.name),
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart),
@@ -21,52 +28,90 @@ class RecipeDetailScreen extends StatelessWidget {
             },
           ),
         ],
+        backgroundColor: Colors.orange,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(dish.imageUrl, height: 200, width: double.infinity, fit: BoxFit.cover),
+            Image.asset(widget.dish.imageUrl, height: 200, width: double.infinity, fit: BoxFit.cover),
             SizedBox(height: 16.0),
             Text(
-              dish.name,
+              widget.dish.name,
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
             Text(
-              '\$${dish.price.toStringAsFixed(2)}',
+              '\$${widget.dish.price.toStringAsFixed(2)}',
               style: TextStyle(fontSize: 20.0, color: Colors.green),
             ),
             SizedBox(height: 8.0),
             Text(
-              'Rating: ${dish.rating} (${dish.ratingCount} reviews)',
+              'Rating: ${widget.dish.rating} (${widget.dish.ratingCount} reviews)',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 16.0),
             Text(
-              dish.description,
+              widget.dish.description,
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 16.0),
             Text(
-              'Allergens: ${dish.allergens.join(', ')}',
+              'Allergens: ${widget.dish.allergens.join(', ')}',
               style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 16.0),
             Text(
-              'Nutrition: Calories: ${dish.nutrition['calories']}, Fat: ${dish.nutrition['fat']}, Carbs: ${dish.nutrition['carbohydrates']}, Protein: ${dish.nutrition['protein']}',
+              'Nutrition: Calories: ${widget.dish.nutrition['calories']}, Fat: ${widget.dish.nutrition['fat']}, Carbs: ${widget.dish.nutrition['carbohydrates']}, Protein: ${widget.dish.nutrition['protein']}',
               style: TextStyle(fontSize: 16.0),
+            ),
+            SizedBox(height: 16.0),
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    if (_quantity > 1) {
+                      setState(() {
+                        _quantity--;
+                      });
+                    }
+                  },
+                ),
+                Text(
+                  _quantity.toString(),
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      _quantity++;
+                    });
+                  },
+                ),
+              ],
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                Provider.of<CartProvider>(context, listen: false).addToCart(dish);
+                Provider.of<CartProvider>(context, listen: false).addToCart(widget.dish, _quantity);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${dish.name} added to cart')),
+                  SnackBar(content: Text('${widget.dish.name} added to cart')),
                 );
               },
-              child: Text('Add to Cart'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: Text(
+                'Add to Cart',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
           ],
         ),

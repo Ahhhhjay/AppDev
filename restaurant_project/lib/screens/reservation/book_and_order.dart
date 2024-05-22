@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_project/providers/cart_provider.dart';
 import 'package:restaurant_project/screens/reservation/reservationdetailspage.dart';
+import '../../models/dish.dart';
 
 class BookTablePage extends StatefulWidget {
   @override
@@ -170,7 +171,7 @@ class _BookTablePageState extends State<BookTablePage> {
 
   void _navigateToDetailsPage(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final selectedDishes = cartProvider.cartItems;
+    final selectedDishes = cartProvider.cartItems.map((item) => item['dish'] as Dish).toList();
 
     Navigator.push(
       context,

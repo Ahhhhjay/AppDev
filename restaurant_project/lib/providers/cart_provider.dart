@@ -4,11 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_project/models/dish.dart';
 
 class CartProvider with ChangeNotifier {
-  List<Dish> _cartItems = [];
+  List<Map<String, dynamic>> _cartItems = [];
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late String _userId;
 
-  List<Dish> get cartItems => _cartItems;
+  List<Map<String, dynamic>> get cartItems => _cartItems;
 
   CartProvider() {
     _initializeUser();
@@ -32,7 +32,10 @@ class CartProvider with ChangeNotifier {
           .collection('cart')
           .get();
       _cartItems = snapshot.docs
-          .map((doc) => Dish.fromJson(doc.data() as Map<String, dynamic>))
+          .map((doc) => {
+        'dish': Dish.fromJson(doc.data() as Map<String, dynamic>),
+        'quantity': doc['quantity']
+      })
           .toList();
       notifyListeners();
     } catch (e) {
@@ -40,14 +43,19 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addToCart(Dish dish) async {
+  Future<void> addToCart(Dish dish, int quantity) async {
     try {
-      _cartItems.add(dish);
+      final existingIndex = _cartItems.indexWhere((item) => item['dish'].name == dish.name);
+      if (existingIndex >= 0) {
+        _cartItems[existingIndex]['quantity'] += quantity;
+      } else {
+        _cartItems.add({'dish': dish, 'quantity': quantity});
+      }
       await _firestore
           .collection('users')
           .doc(_userId)
           .collection('cart')
-          .add(dish.toJson());
+          .add({'dish': dish.toJson(), 'quantity': quantity});
       notifyListeners();
     } catch (e) {
       print('Error adding to cart: $e');
@@ -56,12 +64,12 @@ class CartProvider with ChangeNotifier {
 
   Future<void> removeFromCart(Dish dish) async {
     try {
-      _cartItems.remove(dish);
+      _cartItems.removeWhere((item) => item['dish'].name == dish.name);
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .doc(_userId)
           .collection('cart')
-          .where('food_name', isEqualTo: dish.name)
+          .where('dish.food_name', isEqualTo: dish.name)
           .get();
       for (var doc in snapshot.docs) {
         await _firestore
