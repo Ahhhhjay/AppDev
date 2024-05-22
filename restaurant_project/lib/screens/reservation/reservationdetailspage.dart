@@ -58,7 +58,7 @@ class ReservationDetailsPage extends StatelessWidget {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => HomePage()),
-          (Route<dynamic> route) => false,
+      (Route<dynamic> route) => false,
     );
   }
 
@@ -98,16 +98,20 @@ class ReservationDetailsPage extends StatelessWidget {
             SizedBox(height: 10),
             Text(
               'Selected Dishes:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orange),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange),
             ),
             SizedBox(height: 10),
             ...selectedDishes.map((dish) => Card(
-              margin: EdgeInsets.symmetric(vertical: 5),
-              child: ListTile(
-                title: Text(dish.name, style: TextStyle(fontSize: 16)),
-                trailing: Text('\$${dish.price.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
-              ),
-            )),
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  child: ListTile(
+                    title: Text(dish.name, style: TextStyle(fontSize: 16)),
+                    trailing: Text('\$${dish.price.toStringAsFixed(2)}',
+                        style: TextStyle(fontSize: 16)),
+                  ),
+                )),
             Spacer(),
             SizedBox(
               width: double.infinity,

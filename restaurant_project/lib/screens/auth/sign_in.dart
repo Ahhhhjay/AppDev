@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_project/screens/account/check_username.dart';
+import 'package:restaurant_project/screens/auth/register.dart';
 import 'forgot_password.dart';
 
 class SignInPage extends StatefulWidget {
@@ -119,7 +120,11 @@ class _SignInPageState extends State<SignInPage> {
               child: IconButton(
                 icon: Icon(Icons.arrow_back, size: 30, color: Colors.orange),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RegisterPage()),
+                  );
                 },
               ),
             ),

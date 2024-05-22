@@ -69,7 +69,8 @@ class _BookTablePageState extends State<BookTablePage> {
                   if (picked != null && picked != selectedDate)
                     setState(() {
                       selectedDate = picked;
-                      _dateController.text = "${picked.toLocal()}".split(' ')[0];
+                      _dateController.text =
+                          "${picked.toLocal()}".split(' ')[0];
                     });
                 },
               ),
