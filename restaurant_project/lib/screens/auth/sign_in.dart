@@ -18,6 +18,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -59,7 +60,7 @@ class _SignInPageState extends State<SignInPage> {
                   onPressed: () async {
                     try {
                       UserCredential userCredential =
-                      await _auth.signInWithEmailAndPassword(
+                          await _auth.signInWithEmailAndPassword(
                         email: _emailController.text,
                         password: _passwordController.text,
                       );
@@ -106,7 +107,8 @@ class _SignInPageState extends State<SignInPage> {
                     style: TextStyle(color: Colors.orange),
                   ),
                 ),
-                SizedBox(height: 80), // Add some space to avoid overlap with the button
+                SizedBox(height: 80),
+                // Add some space to avoid overlap with the button
               ],
             ),
           ),
