@@ -6,14 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e1dcaf50-4f49-4941-9abe-f6b3b554360d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/providers/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/providers/api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/providers/cart_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/providers/cart_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/providers/recipe_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/providers/recipe_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/screens/cart/cart_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/screens/cart/cart_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/screens/menu/menu_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/screens/menu/menu_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/screens/menu/menu_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/screens/menu/menu_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/screens/menu/recipe_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/screens/menu/recipe_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/screens/reservation/book_and_order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/screens/reservation/book_and_order.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant_project/lib/screens/reservation/reservationdetailspage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_project/lib/screens/reservation/reservationdetailspage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
